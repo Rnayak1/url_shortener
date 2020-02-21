@@ -1,0 +1,32 @@
+{
+  "name": "url_shortener",
+  "version": "1.0.0",
+  "description": "URL-Shortening Assignment",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev" : "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rnayak1/url_shortener.git"
+  },
+  "keywords": [
+    "url-shortener"
+  ],
+  "author": "Rnayak1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rnayak1/url_shortener/issues"
+  },
+  "homepage": "https://github.com/Rnayak1/url_shortener#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
