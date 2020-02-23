@@ -20,11 +20,11 @@ class UserModule extends VuexModule {
   resp = "";
   @Mutation
   Register(resp: any) {
-    this.resp = resp;
+    return (this.resp = resp);
   }
   @Mutation
   Login(resp: any) {
-    this.resp = resp;
+    return (this.resp = resp);
   }
   @Action({ commit: "Register" })
   async register(user: model.User) {

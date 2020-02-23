@@ -3,7 +3,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign up</h1>
+          <h1 class="text-xs-center">Sign In To Your Account</h1>
           <p class="text-xs-center">
             <router-link to="/register">
               Need an Account
@@ -11,18 +11,21 @@
           </p>
 
           <ul class="error-messages" v-if="loginError">
-            <li>{{ loginError }}</li>
+            <li style="list-type : none;">{{ loginError }}</li>
           </ul>
 
           <form>
-            <fieldset class="form-group">
+            <div class="form-group input-group">
+              <div class="input-group-prepend">
+          <div class="input-group-text">@</div>
+        </div>
               <input
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
                 v-model="email"
               />
-            </fieldset>
+            </div>
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"

@@ -20,15 +20,25 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="mobile">Contact Number <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Contact Number" minlength="10" maxlength="10"
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">@</div>
+                            </div>
+                          <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Contact Number" minlength="10" maxlength="10"
                         autocomplete="off" required v-model="contact">
+                        </div>
                     </div>                    
                 </div>
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="email">Email<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+          <div class="input-group-text">@</div>
+        </div>
                         <input type="email" class="form-control" placeholder="E-mail ID" name="email"
                            autocomplete="off" required v-model="email">
+                        </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="password">Password <span class="text-danger">*</span></label>

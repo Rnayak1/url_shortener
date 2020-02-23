@@ -17,3 +17,10 @@ export async function LoginUser(user: model.Login) {
   });
   return response.data;
 }
+
+export async function GenerateUrl(url: model.Generate) {
+  const response = await api.post("generate", {
+    url: url
+  });
+  return response.data;
+}
