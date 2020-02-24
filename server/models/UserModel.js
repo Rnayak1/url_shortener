@@ -44,7 +44,7 @@ const urlModel = mongoose.model('urlModel', new Schema({
     },
     hashLink: {
         type: String,
-        unique:true,
+        unique: true,
         required: true
     },
     userId: {
@@ -56,8 +56,8 @@ const urlModel = mongoose.model('urlModel', new Schema({
 const clickModel = mongoose.model('clickModel', new Schema({
     hashLink: String,
     query: String,
-    country : String,
-    regionName : String,
+    country: String,
+    regionName: String,
     city: String,
     zip: String,
     isp: String,

@@ -87,8 +87,7 @@ export default class CreateClick extends Vue {
     console.log(this.orignalUrl, this.passedUrl);
     const response = await link.generate({
       orignal: this.orignalUrl,
-      passed: this.passedUrl,
-      userid: "abc"
+      passed: this.passedUrl
     });
     console.log(response);
     this.urlMessage = response.toString();

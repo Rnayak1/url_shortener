@@ -4,6 +4,13 @@ export const api = axios.create({
   baseURL: "http://localhost:5000/api/"
 });
 
+export function setJWT(JWT: string) {
+  api.defaults.headers['token'] = `${JWT}`;
+}
+
+export function clearJWT() {
+  delete api.defaults.headers['token'];
+}
 export async function RegisterUser(user: model.User) {
   const response = await api.post("register", {
     user: user
@@ -15,12 +22,20 @@ export async function LoginUser(user: model.Login) {
   const response = await api.post("login", {
     user: user
   });
-  return response.data;
+  if (response.data.status == "success") {
+    localStorage.setItem('t', response.data.message);
+  }
+  return response.data.status;
 }
 
 export async function GenerateUrl(url: model.Generate) {
-  const response = await api.post("generate", {
-    url: url
-  });
-  return response.data;
+  if (localStorage.t && localStorage.t != '') {
+    api.defaults.headers['token'] = localStorage.getItem('t');
+    const response = await api.post("generate", {
+      url: url
+    });
+    delete api.defaults.headers['token'];
+    return response.data;
+  }
+
 }
