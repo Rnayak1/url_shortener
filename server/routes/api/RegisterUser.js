@@ -32,16 +32,6 @@ const model = require('../../models/UserModel')
 router.get('/register', async (req, res) => {
     console.log(req.body)
     res.send("hello");
-    /*const data = new User({
-        username : "Rohit",
-        email : "rohitn116@gmail.com",
-        password : "abc@123",
-        contact : 7827113162,
-        verifyToken : "abc"
-    });
-    await data.save()
-         .then((response) => res.send(response))
-         .catch(err => res.send(err));*/
 })
 
 //post Register
