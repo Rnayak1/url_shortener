@@ -13,5 +13,8 @@ export interface Login {
 export interface Generate {
     orignal: string;
     passed?: string;
-    userid: string;
+}
+
+export interface Verify {
+    token : string;
 }

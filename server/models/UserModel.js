@@ -25,10 +25,6 @@ const userModel = mongoose.model('userModel', new Schema({
     status: {
         type: String,
         default: 'inactive'
-    },
-    token: {
-        type: String,
-        required: true
     }
 }), 'UserManager');
 
@@ -48,6 +44,7 @@ const urlModel = mongoose.model('urlModel', new Schema({
     },
     hashLink: {
         type: String,
+        unique:true,
         required: true
     },
     userId: {
@@ -58,12 +55,14 @@ const urlModel = mongoose.model('urlModel', new Schema({
 
 const clickModel = mongoose.model('clickModel', new Schema({
     hashLink: String,
-    ip: String,
+    query: String,
+    country : String,
+    regionName : String,
     city: String,
-    postal: Number,
+    zip: String,
     isp: String,
-    lattitude: Number,
-    longitude: Number,
+    lon: Number,
+    lat: Number,
 }), 'ClickCapture');
 
 module.exports = {
