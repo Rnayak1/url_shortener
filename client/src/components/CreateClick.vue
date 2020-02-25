@@ -1,11 +1,12 @@
 <template>
-  <div class="row">
-    <div class="col-12" v-if="urlMessage.status">
-      <span>{{urlMessage.shortUrl}}</span>
+  <div class="row ms">
+    <div class="col-8 err" v-if="linkerror">
+      <span style="position:absolute; right:5px; top : 3px; cursor:pointer" @click="clearError"> &times; </span>
+      <span>{{linkerror}}</span>
     </div>
-    <div class="col-6">
-      <div class="col-4">
-        <p>Enter your url</p>
+    <div class="col-sm-6 col-xs-12">
+      <div class="col-12">
+        <h3>Enter your url</h3>
       </div>
       <div class="col-12 input-group">
         <div class="input-group-prepend">
@@ -37,28 +38,46 @@
         </span>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-sm-6 col-xs-12">
       <div class="col-12">
         <h3>
-          <center>
             <b>Your preview link</b>
-          </center>
         </h3>
       </div>
-      <div class="col-12">
+      <div class="col-12 urlbox">
         <div class="col-10" v-if="passedUrl && orignalUrl && (passedUrl.length >5)">
-          <span>Your Url is</span>
+          <span>Your Url will be</span>
           <br />
           <span>https://domain/campain/{{passedUrl}}</span>
         </div>
-        <div class="col-2" v-if="orignalUrl && !linkerror">
-          <button class="btn btn-primary" @click="generateUrl()">Generate</button>
+        <div class="col-2" v-if="orignalUrl">
+          <button class="btn btn-primary"  @click="generateUrl()">Generate</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<style scoped>
+.input-group-text{
+  font-size: 12px
+}
+.urlbox{
+  border: 2px solid #13a62a;
+  padding: 5px;
+}
+.err{
+  position: absolute;
+padding: 5px;
+border: 1px solid green;
+justify-content: center;
+text-align: center;
+background: #2b7b3f;
+margin-top: -6%;
+margin-left: 40px;
+z-index: +1;
+}
+</style>
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
@@ -68,7 +87,6 @@ export default class CreateClick extends Vue {
   orignalUrl = "";
   passedUrl = "";
   linkerror = "";
-  urlMessage = "";
   customError = false;
   clickCheck($event: string | null) {
     if ($event != null) {
@@ -83,14 +101,22 @@ export default class CreateClick extends Vue {
     }
   }
 
+  clearError(){
+     this.orignalUrl = ""
+     this.passedUrl = ""
+    return this.linkerror = ""
+  }
+
   async generateUrl() {
     console.log(this.orignalUrl, this.passedUrl);
     const response = await link.generate({
       orignal: this.orignalUrl,
       passed: this.passedUrl
     });
-    console.log(response);
-    this.urlMessage = response.toString();
+    if(response.status == "error")
+      return this.linkerror = response.message;
+    else
+      return this.linkerror = `Generated :  http://localhost:8080/campain/${response.shortUrl}`;
   }
 }
 </script>

@@ -18,3 +18,7 @@ export interface Generate {
 export interface Verify {
     token : string;
 }
+
+export interface Link{
+    link ?: string;
+}

@@ -13,5 +13,7 @@ import AppNavbar from "@/components/AppNavbar.vue";
     AppNavbar
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+}
 </script>

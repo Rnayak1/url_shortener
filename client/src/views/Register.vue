@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container ms">
         <div class="need-validation">
             <center>
                 <h2><u> Join Us</u></h2>
@@ -56,6 +56,16 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.ms{
+    margin-top: 8%;
+    padding: 5%;
+    color: cornsilk
+  }
+
+</style>
+
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'

@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-page">
+  <div class="ms">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
@@ -40,6 +40,14 @@
   </div>
 </template>
 
+<style scoped>
+.ms{
+    margin-top: 8%;
+    padding: 5%;
+    color: cornsilk
+  }
+
+</style>
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import user from "@/store/module/user";
@@ -51,13 +59,18 @@ export default class Login extends Vue {
   async login() {
     console.log(this.email + "  " + this.password);
     if (this.email == "" || this.password == "") {
-      this.loginError = "true";
+      this.loginError = "Please fill this fields";
+      return
     } else {
-      const response = await user.login({
+      user.login({
         email: this.email,
         password: this.password
-      });
-      console.log(response);
+      }).then(res => {
+        if(res == "success")
+          this.$router.push('/dashboard')
+        else
+          this.loginError = "Invalid Credentials"
+      })
     }
 
     // })

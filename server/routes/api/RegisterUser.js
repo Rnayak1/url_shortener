@@ -178,7 +178,8 @@ router.post('/login', async (req, res) => {
         })
         res.send({
             status: "success",
-            message: token
+            message: token,
+            username : response.username
         });
     }
 
@@ -265,7 +266,6 @@ router.post('/getlink', async (req, res) => {
                 });
                 //saveClick(ip,data[0].hashLink);
                 saveClick('24.48.0.1', data[0].hashLink);
-
             }
         }
     })

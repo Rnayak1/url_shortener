@@ -18,12 +18,21 @@ import { RegisterUser, LoginUser } from "./api";
 })
 class UserModule extends VuexModule {
   resp = "";
+  user = "";
+
+  get GetUsername(){
+    return this.user
+  }
+
   @Mutation
   Register(resp: any) {
+    if(resp == "success")
+      this.user = localStorage.u
     return (this.resp = resp);
   }
   @Mutation
   Login(resp: any) {
+    this.user = localStorage.u
     return (this.resp = resp);
   }
   @Action({ commit: "Register" })
