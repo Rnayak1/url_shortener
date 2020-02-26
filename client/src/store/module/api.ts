@@ -1,16 +1,17 @@
 import axios from "axios";
 import * as model from "../model";
 
+export const api = axios.create({baseURL:"http://localhost:5000/api/"});
 
 export async function RegisterUser(user: model.User) {
-  const response = await axios.post("api/register", {
+  const response = await api.post("register", {
     user: user
   });
   return response.data;
 }
 
 export async function LoginUser(user: model.Login) {
-  const response = await axios.post("api/login", {
+  const response = await api.post("login", {
     user: user
   });
   if (response.data.status == "success") {
@@ -23,11 +24,11 @@ export async function LoginUser(user: model.Login) {
 
 export async function GenerateUrl(url: model.Generate) {
   if (localStorage.t && localStorage.t != '') {
-    axios.defaults.headers['token'] = localStorage.getItem('t');
-    const response = await axios.post("api/generate", {
+    api.defaults.headers['token'] = localStorage.getItem('t');
+    const response = await api.post("generate", {
       url: url
     });
-    delete axios.defaults.headers['token'];
+    delete api.defaults.headers['token'];
     return response.data;
   }
   else{
@@ -40,7 +41,7 @@ export async function GenerateUrl(url: model.Generate) {
 }
 
 export async function GetUrl(url : string){
-  const response = await axios.post("api/getlink",{
+  const response = await api.post("getlink",{
     url : {hashLink : url}
   })
   return response.data;
@@ -49,9 +50,9 @@ export async function GetUrl(url : string){
 export async function GetLinksForUser(){
   console.log("api")
   if (localStorage.t && localStorage.t != '') {
-    axios.defaults.headers['token'] = localStorage.getItem('t');
-    const response = await axios.post("api/getalllink");
-    delete axios.defaults.headers['token'];
+    api.defaults.headers['token'] = localStorage.getItem('t');
+    const response = await api.post("getalllink");
+    delete api.defaults.headers['token'];
     //console.log(response.data);
     return response.data;
   }
