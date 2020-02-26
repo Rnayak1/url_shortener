@@ -1,12 +1,15 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
+        <br>
         <center>
-            <h3> Your Short URL(s)</h3>
+            <h3 class="card"> Your Short URL(s)</h3>
         </center>
-        <div v-for="(link,index) in links"
-            :key="index"
-        >
-            {{link}}
+        <div v-if="links.length" class="row" style="margin:0;">
+            <div class="card col-sm-4 col-xs-12" v-for="link in links" :key="link.id">
+                <h3 class="card-text">
+                    http://localhost:8080/{{link.hashLink}}
+                </h3>
+        </div>
         </div>
     </div>
 </template>
@@ -18,7 +21,10 @@ import Link from '@/store/model'
 @Component
 export default class UserLink extends Vue{
     get links(){
-        return link.GetLinks
+        return link.links
+    }
+    created() {
+        link.getLinks()   
     }
 }
 </script>

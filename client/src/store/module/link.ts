@@ -7,7 +7,7 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import * as model from "@/store/model";
-import { GenerateUrl,GetLinksForUser } from "./api";
+import { GenerateUrl,GetLinksForUser, GetUrl } from "./api";
 
 @Module({
     namespaced: true,
@@ -17,14 +17,13 @@ import { GenerateUrl,GetLinksForUser } from "./api";
 })
 class LinkModule extends VuexModule {
     resp = ""
-    links : model.Link[] = []
-
-    get GetLinks(){
-        return this.links;
-    }
+    links = [];
     @Mutation
-    SetLink(links:model.Link[]){
-        return this.links = links
+    SetLinks(resp:any){
+        if(resp.status == "success")    
+            return this.links = resp.message
+        else
+            return this.links =  [];
     }
     @Mutation
     Generate(resp: any) {
@@ -36,8 +35,14 @@ class LinkModule extends VuexModule {
         console.log(response);
         return response;
     }
-    @Action({commit : 'SetLink'})
-    async setlink(){
+    @Action
+    async getUrl(url:string){
+        const response = await GetUrl(url);
+        console.log(response)
+        return response;
+    }
+    @Action({commit:'SetLinks'})
+    async getLinks(){
         const response = await GetLinksForUser();
         return response;
     }

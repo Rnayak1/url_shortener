@@ -21,8 +21,17 @@ class UserModule extends VuexModule {
   user = "";
 
   get GetUsername(){
-    return this.user
-  }
+    if(this.user && this.user != ""){
+      return this.user
+    }
+    else{
+      if(localStorage.u && localStorage.u != "")
+        return localStorage.u
+       else
+        return null;
+      }  
+    }  
+  
 
   @Mutation
   Register(resp: any) {

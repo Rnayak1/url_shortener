@@ -39,6 +39,11 @@
             Welcome {{username}}
           </router-link>
         </li>
+        <li class="nav-item" v-if="username">
+          <router-link to="/logout" class="nav-link">
+            LogOut
+          </router-link>
+        </li>
       </div>
     </div>
   </nav>
@@ -52,6 +57,5 @@ export default class AppNavBar extends Vue {
   get username(){
     return user.GetUsername;
   }
-  
 }
 </script>

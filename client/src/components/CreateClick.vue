@@ -48,10 +48,10 @@
         <div class="col-10" v-if="passedUrl && orignalUrl && (passedUrl.length >5)">
           <span>Your Url will be</span>
           <br />
-          <span>https://domain/campain/{{passedUrl}}</span>
+          <span>https://domain/{{passedUrl}}</span>
         </div>
         <div class="col-2" v-if="orignalUrl">
-          <button class="btn btn-primary"  @click="generateUrl()">Generate</button>
+          <a class="btn btn-primary"  @click.prevent="generateUrl()">Generate</a>
         </div>
       </div>
     </div>
@@ -116,7 +116,7 @@ export default class CreateClick extends Vue {
     if(response.status == "error")
       return this.linkerror = response.message;
     else
-      return this.linkerror = `Generated :  http://localhost:8080/campain/${response.shortUrl}`;
+      return this.linkerror = `Generated :  http://localhost:8080/#/${response.shortUrl}`;
   }
 }
 </script>

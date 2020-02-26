@@ -1,5 +1,8 @@
 <template>
     <div class="container ms">
+        <div class="col-8 err" v-if="message">
+      <span>{{message}}</span>
+    </div>
         <div class="need-validation">
             <center>
                 <h2><u> Join Us</u></h2>
@@ -52,7 +55,7 @@
                     </div>                    
                 </div>
             </div>
-            <button class="btn btn-primary" @click="register()">Submit</button>
+            <button class="btn btn-primary" @click.prevent="register()">Submit</button>
         </div>
     </div>
 </template>
@@ -64,6 +67,17 @@
     color: cornsilk
   }
 
+.err{
+  position: absolute;
+padding: 5px;
+border: 1px solid green;
+justify-content: center;
+text-align: center;
+background: #2b7b3f;
+margin-top: 2%;
+margin-left: 40px;
+z-index: +1;
+}
 </style>
 
 
@@ -78,16 +92,17 @@ export default class Register extends Vue {
     password = ''
     cnfPassword = ''
     contact = ''
-
-    async register(){
+    message = ""
+    register(){
         console.log(this.firstName + this.email)
-        const response = await user.register({
+        user.register({
             username : this.firstName + this.lastName,
             email : this.email,
             password : this.password,
             contact : this.contact
-        })
-        console.log(`res => ${response}`)
+        }).then(response => { console.log(response.message);
+            return (this.message = response.message)})
+        .catch(err => console.log(err));     
     }
 }
 </script>
