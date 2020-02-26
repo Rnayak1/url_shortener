@@ -6,12 +6,14 @@ const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const router = express.Router();
 //connecting database
-const conn = mongoose.connect('mongodb://localhost/clickAssignment', {
+//const mongoUrl = 'mongodb://localhost/clickAssignment';
+const mongoUrl = 'mongodb+srv://jayantdhawan:jayantadsxenium@url-shortner-api-xzrow.mongodb.net/url-shortner-api?retryWrites=true&w=majority'
+const conn = mongoose.connect(mongoUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
 })
-    .then(res => { })
+    .then(res => {console.log("connected")})
     .catch(err => console.log(err))
 // configuring nodemailer
 
@@ -38,7 +40,7 @@ router.post('/register', async (req, res) => {
     //generate token
     let data = {}
     //const token = crypto.randomBytes(10).toString('hex');
-    console.log(req.body);
+    //console.log(req.body);
     const { user } = req.body;
     const doExist = await model.loginModel.findOne({ email: user.email })
     if (doExist) {
@@ -55,26 +57,25 @@ router.post('/register', async (req, res) => {
             expiresIn: '1d'
         })
         user.status = "inactive";
-        console.log(user)
-        //sendMail(req, token);
+        //console.log(user)
+        sendMail(req,data.email,token);
         res.send({
             status: "success",
-            message: "Please verify your email id",
-            token
+            message: "Please verify your email id"
         })
         const document = new model.userModel(user);
         document.save((err, resp) => {
             if (err)
-                console.log("err")
+                return "err";
             else
-                console.log(resp)
+                return resp;
         });
     }
-    async function sendMail(req, token) {
+    async function sendMail(req, reciever,token) {
         //configure mail
         const mailOptions = {
             from: "rohit@adsxeniumtechnology.com",
-            to: "rohitadsxenium@gmail.com",
+            to: reciever,
             subject: "Verify Your Account",
             html: ` <div>
                     please click verify button to Verify your account 
@@ -107,7 +108,7 @@ router.post('/verify', async (req, res) => {
         if (err) {
             if (err.name == 'TokenExpiredError') {
                 const payload = jwt.verify(token, 'secretKey', { ignoreExpiration: true });
-                console.log(payload.email);
+                //console.log(payload.email);
                 model.userModel.deleteOne({ email: payload.email }, (err, suc) => {
                     if (err)
                         console.log(err)
@@ -133,7 +134,7 @@ router.post('/verify', async (req, res) => {
                     })
                 }
                 else {
-                    console.log(response)
+                    //console.log(response)
                     if (response.status != 'inactive') {
                         res.json({
                             status: "error",
@@ -167,7 +168,7 @@ router.post('/verify', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const response = await model.loginModel.findOne({ email: req.body.user.email.toLowerCase() })
     if (response && (response.password == req.body.user.password)) {
         const token = jwt.sign({
@@ -191,19 +192,19 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/generate', verifyToken, async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     jwt.verify(req.token, 'secretKey', async (err, data) => {
         if (err) {
             err.status = "error"
             res.json(err);
         }
         else {
-            console.log(data)
+            //console.log(data)
             if (req.body.url.passed == '' || req.body.url.passed.length < 6) {
                 // generate url
                 req.body.url.passed = crypto.randomBytes(6).toString('hex');
             }
-            console.log(req.body.url.orignal.toString());
+            //console.log(req.body.url.orignal.toString());
             const doExist = await model.urlModel.findOne({ hashLink: req.body.url.passed.toString() });
             if (doExist !== null) {
                 if (req.body.url.passed == '' || req.body.url.passed.length < 6)
@@ -247,7 +248,7 @@ router.post('/generate', verifyToken, async (req, res) => {
 router.post('/getlink', async (req, res) => {
     //get user ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    console.log(req.body)
+    //console.log(req.body)
     await model.urlModel.find({ hashLink: req.body.url.hashLink }, (err, data) => {
         if (err) {
             err.status = "error"
@@ -264,9 +265,37 @@ router.post('/getlink', async (req, res) => {
                     status: "success",
                     message: data[0].orignalLink
                 });
-                //saveClick(ip,data[0].hashLink);
-                saveClick('24.48.0.1', data[0].hashLink);
+                saveClick(ip,data[0].hashLink);
+                //saveClick('24.48.0.1', data[0].hashLink);
             }
+        }
+    })
+})
+
+router.post('/getalllink',verifyToken,async(req,res)=>{
+    jwt.verify(req.token, 'secretKey', async (err, data) => {
+        if (err) {
+            //console.log(err)
+            res.json({
+                status : "error",
+                message: "invalid User"
+            });
+        }
+        else {
+            model.urlModel.find({userId:data.username},'hashLink',(err,response)=>{
+                if(err)
+                res.json({
+                    status : "error",
+                    message : " Internal Server Error"
+                })
+                else{
+                    res.json({
+                        status : "success",
+                        message : response
+                    })
+                }
+                    
+            })
         }
     })
 })
@@ -286,21 +315,22 @@ function verifyToken(req, res, next) {
 async function saveClick(clientip, hashlink) {
 
     if (clientip == '::1') {
-        console.log('localHost')
+        //console.log('localHost')
         return
     }
     else {
+        //console.log(`clientip is ${clientip}`)
         const endpoint = `http://ip-api.com/json/${clientip}?fields=8953`;
         const response = await axios.get(endpoint);
-        console.log(response.data)
+        //console.log(response.data)
         const clickData = response.data;
         clickData.hashLink = hashlink;
         const object = new model.clickModel(clickData);
         object.save((err, data) => {
             if (err)
-                console.log(err)
+                return (err)
             else
-                console.log(data);
+                return (data);
         });
     }
 
