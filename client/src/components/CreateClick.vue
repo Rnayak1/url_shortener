@@ -88,6 +88,8 @@ export default class CreateClick extends Vue {
   passedUrl = "";
   linkerror = "";
   customError = false;
+
+  // Function to verify only [A-Z a-z 1-9] are added in custom url
   clickCheck($event: string | null) {
     if ($event != null) {
       console.log($event.charCodeAt(0));
@@ -100,13 +102,20 @@ export default class CreateClick extends Vue {
       } else this.customError = true;
     }
   }
-
+  //conditional rendering
   clearError(){
      this.orignalUrl = ""
      this.passedUrl = ""
     return this.linkerror = ""
   }
-
+  /* 
+      function to generate custom url in store/module/link.ts 
+      returns 
+      {
+        status : error/success
+        message : repsonse by server
+      }
+  */
   async generateUrl() {
     console.log(this.orignalUrl, this.passedUrl);
     const response = await link.generate({

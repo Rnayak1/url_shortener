@@ -54,6 +54,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import user from '@/store/module/user'
 @Component
 export default class AppNavBar extends Vue {
+  // To get current user 
   get username(){
     return user.GetUsername;
   }

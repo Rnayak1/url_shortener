@@ -7,7 +7,8 @@ const axios = require('axios')
 const router = express.Router();
 //connecting database
 //const mongoUrl = 'mongodb://localhost/clickAssignment';
-const mongoUrl = 'mongodb+srv://jayantdhawan:jayantadsxenium@url-shortner-api-xzrow.mongodb.net/url-shortner-api?retryWrites=true&w=majority'
+const mongoUrl = process.env.DATABASE || 'mongodb://localhost/clickAssignment';
+console.log(mongoUrl);
 const conn = mongoose.connect(mongoUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -15,32 +16,30 @@ const conn = mongoose.connect(mongoUrl, {
 })
     .then(res => {console.log("connected")})
     .catch(err => console.log(err))
-// configuring nodemailer
 
+
+// configuring nodemailer
 const transporter = ndoemailer.createTransport({
     pool: true,
-    host: "c04.tmdcloud.asia",
-    port: 465,
+    host: process.env.MAILHOST,
+    port: process.env.MAILPORT,
     secure: true,
     auth: {
-        user: "rohit@adsxeniumtechnology.com",
-        pass: "Rekoj@123"
+        user: process.env.MAILAUTH,
+        pass: process.env.MAILAUTHPASS
     }
 });
 
 //import model
 const model = require('../../models/UserModel')
-//RegisterUser
+//RegisterUser invalid route
 router.get('/register', async (req, res) => {
     res.send("Hello, Got Here By Mistake");
 })
 
 //post Register
 router.post('/register', async (req, res) => {
-    //generate token
     let data = {}
-    //const token = crypto.randomBytes(10).toString('hex');
-    //console.log(req.body);
     const { user } = req.body;
     const doExist = await model.loginModel.findOne({ email: user.email })
     if (doExist) {
@@ -52,7 +51,7 @@ router.post('/register', async (req, res) => {
     else {
         data.username = user.username;
         data.email = user.email;
-        const token = jwt.sign(data, "secretKey", {
+        const token = jwt.sign(data, process.env.JWT, {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
@@ -74,14 +73,14 @@ router.post('/register', async (req, res) => {
     async function sendMail(req, reciever,token) {
         //configure mail
         const mailOptions = {
-            from: "rohit@adsxeniumtechnology.com",
+            from: process.env.MAILSENDER,
             to: reciever,
             subject: "Verify Your Account",
             html: ` <div>
                     please click verify button to Verify your account 
                     <br>
                     <center>
-                        <a type="button" href="http://${req.headers.host}/verify?token=${token}" style="button"> Verify</a>
+                        <a type="button" href="${process.env.MAILSENDER}/verify?token=${token}" style="border:1px solid grey; background:lightgreen; font-size:14px;justify-content:center"> Verify</a>
                     </center>
                 </div>`
         };
@@ -104,10 +103,10 @@ router.post('/register', async (req, res) => {
 // VerifyUser
 router.post('/verify', async (req, res) => {
     const { token } = req.body.token;
-    jwt.verify(token, 'secretKey', (err, data) => {
+    jwt.verify(token, process.env.JWT, (err, data) => {
         if (err) {
             if (err.name == 'TokenExpiredError') {
-                const payload = jwt.verify(token, 'secretKey', { ignoreExpiration: true });
+                const payload = jwt.verify(token, process.env.JWT, { ignoreExpiration: true });
                 //console.log(payload.email);
                 model.userModel.deleteOne({ email: payload.email }, (err, suc) => {
                     if (err)
@@ -167,13 +166,14 @@ router.post('/verify', async (req, res) => {
     })
 })
 
+//loginUser
 router.post('/login', async (req, res) => {
     //console.log(req.body);
     const response = await model.loginModel.findOne({ email: req.body.user.email.toLowerCase() })
     if (response && (response.password == req.body.user.password)) {
         const token = jwt.sign({
             username: response.email
-        }, 'secretKey', {
+        }, process.env.JWT, {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
@@ -191,9 +191,10 @@ router.post('/login', async (req, res) => {
         })
 });
 
+//generate short url after verifying token
 router.post('/generate', verifyToken, async (req, res) => {
     //console.log(req.body);
-    jwt.verify(req.token, 'secretKey', async (err, data) => {
+    jwt.verify(req.token, process.env.JWT, async (err, data) => {
         if (err) {
             err.status = "error"
             res.json(err);
@@ -245,6 +246,7 @@ router.post('/generate', verifyToken, async (req, res) => {
 
 })
 
+//return orignal url if short url exist
 router.post('/getlink', async (req, res) => {
     //get user ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -272,8 +274,9 @@ router.post('/getlink', async (req, res) => {
     })
 })
 
+//return all short urls for the user signed in
 router.post('/getalllink',verifyToken,async(req,res)=>{
-    jwt.verify(req.token, 'secretKey', async (err, data) => {
+    jwt.verify(req.token, process.env.JWT , async (err, data) => {
         if (err) {
             //console.log(err)
             res.json({
@@ -300,6 +303,7 @@ router.post('/getalllink',verifyToken,async(req,res)=>{
     })
 })
 
+//Function for authentication user
 function verifyToken(req, res, next) {
     if (req.headers.token !== undefined && req.headers.token !== '') {
         req.token = req.headers.token;
@@ -312,6 +316,7 @@ function verifyToken(req, res, next) {
         });
 }
 
+//Function to store click details
 async function saveClick(clientip, hashlink) {
 
     if (clientip == '::1') {
@@ -335,4 +340,5 @@ async function saveClick(clientip, hashlink) {
     }
 
 }
+
 module.exports = router;

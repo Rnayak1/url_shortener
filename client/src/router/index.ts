@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
+// Path to load components
 const routes = [
   {
     path: "/",

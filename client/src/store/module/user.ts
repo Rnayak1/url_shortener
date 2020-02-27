@@ -19,7 +19,13 @@ import { RegisterUser, LoginUser } from "./api";
 class UserModule extends VuexModule {
   resp = "";
   user = "";
-
+    /* 
+        return current logged in user username
+        {
+            status : "error/success"
+            message : "response return by server"
+        }
+    */
   get GetUsername(){
     if(this.user && this.user != ""){
       return this.user
@@ -31,26 +37,35 @@ class UserModule extends VuexModule {
         return null;
       }  
     }  
-  
-
-  @Mutation
-  Register(resp: any) {
-    if(resp == "success")
-      this.user = localStorage.u
-    return (this.resp = resp);
-  }
+    /* 
+       set username from localStorage to user
+    */
   @Mutation
   Login(resp: any) {
     this.user = localStorage.u
     return (this.resp = resp);
   }
-  @Action({ commit: "Register" })
+  /* 
+        return orignal url for provided shorturl
+        {
+            status : "error/success"
+            message : "response return by server"
+        }
+    */
+  @Action
   async register(user: model.User) {
     const response = await RegisterUser(user);
     console.log(response);
     return response;
   }
-  @Action({ commit: "Register" })
+  /* 
+        return orignal url for provided shorturl
+        {
+            status : "error/success"
+            message : "response return by server"
+        }
+    */
+  @Action({ commit: "Login" })
   async login(user: model.Login) {
     const response = await LoginUser(user);
     console.log(response);
