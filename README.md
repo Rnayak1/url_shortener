@@ -4,7 +4,7 @@ A url shortener API made with NodeJS, ExpressJS, Passport and MongoDB
 
 ## Endpoints:
 
-### Registration:
+### User Registeration:
 
 `POST /register`
 
@@ -36,7 +36,7 @@ Example request body:
   ```
 Required fields: `email`, `firstname`, `password`,`contact number`,`name`
 
-### Authentication:
+### User Login:
 
 `POST /login`
 
@@ -61,7 +61,7 @@ Example request body:
 
 Required fields: `email`, `password`
 
-### Verify
+### User Verification
 
 `POST /verify`
 
@@ -82,7 +82,7 @@ Example request body:
     }
 ```
 
-### Generate
+### Generate Short URL
 
 `POST /generate`
 
@@ -96,12 +96,20 @@ Example request body:
 }
 }
 ```
+> Return 
+```JSON
+    {
+      "status": "success/error",
+      "message": "short Url on success else error message"
+    }
+```
 
-Authentication required, returns a [ShortUrl](#shorturl)
+
+`Authentication required`, returns a [ShortUrl](#shorturl)
 
 Required feilds: `orignal`
 
-### Redirect
+### Get Orignal Url 
 
 `POST /getlink`
 ```JSON
@@ -111,17 +119,35 @@ Required feilds: `orignal`
     }
   }
 ```
+> Return 
+```JSON
+    {
+      "status": "success/error",
+      "message": "redirect Url on success else error message"
+    }
+```
+
 No Authentication Required, redirect to mapped big url
 
 Required feilds: `hashLink`
 
-### Get Redirects
 
-`GET /redirects`
+### Get All Url for Specific User
 
-Authentication Required, returns a [Redirects](#redirects)
+`POST /getalllink`
 
+> No input require
+> Return 
+```JSON
+    {
+      "status": "success/error",
+      "message": "array of url(s) on success else error message"
+    }
+```
 
+`Authentication Required`, return all url for user informaition provided
+
+Required feilds: `hashLink`
 ## Configuration
 > see .sample-env file
 
