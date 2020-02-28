@@ -1,6 +1,8 @@
 <template>
     <div>
         Welcome to redirect
+        <br>
+        <h3 v-if="url">{{url}}</h3>
     </div>
 </template>
 
@@ -9,6 +11,7 @@ import {Vue, Component} from 'vue-property-decorator'
 import link from '@/store/module/link'
 @Component
 export default class Redirect extends Vue{
+    url = '';
     created(){
         console.log(this.$route.params.customUrl)
         link.getUrl(this.$route.params.customUrl).then(res=>{
