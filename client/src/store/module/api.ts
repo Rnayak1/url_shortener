@@ -10,9 +10,11 @@ Return Format of api endpoints
 }
 
 */
+
+console.log(process.env.VUE_APP_ROOT_API)
 // api url 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api/"
+  baseURL: process.env.production.VUE_APP_ROOT_API || 'http://localhost:5000/api'
 });
 //Register User with Strict Type Match
 export async function RegisterUser(user: model.User) {
