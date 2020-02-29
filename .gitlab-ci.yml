@@ -1,0 +1,12 @@
+image : "node:10.16.0"
+
+pages :
+  cache : 
+    paths :
+      - node_modules/
+  scripts:
+    - npm install
+    - npm build
+
+  only :
+    - url
