@@ -19,27 +19,27 @@ import { RegisterUser, LoginUser } from "./api";
 class UserModule extends VuexModule {
   resp = "";
   user = "";
-    /* 
-        return current logged in user username
-        {
-            status : "error/success"
-            message : "response return by server"
-        }
-    */
-  get GetUsername(){
-    if(this.user && this.user != ""){
+  /* 
+      return current logged in user username
+      {
+          status : "error/success"
+          message : "response return by server"
+      }
+  */
+  get GetUsername() {
+    if (this.user && this.user != "") {
       return this.user
     }
-    else{
-      if(localStorage.u && localStorage.u != "")
+    else {
+      if (localStorage.u && localStorage.u != "")
         return localStorage.u
-       else
+      else
         return null;
-      }  
-    }  
-    /* 
-       set username from localStorage to user
-    */
+    }
+  }
+  /* 
+     set username from localStorage to user
+  */
   @Mutation
   Login(resp: any) {
     this.user = localStorage.u

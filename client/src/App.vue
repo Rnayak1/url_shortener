@@ -14,8 +14,6 @@ import AppNavbar from "@/components/AppNavbar.vue";
   }
 })
 export default class App extends Vue {
-  mounted() {
-    console.log(process.env) 
-  }
+
 }
 </script>

@@ -50,6 +50,12 @@ const urlModel = mongoose.model('urlModel', new Schema({
     userId: {
         type: String,
         required: true
+    },
+    expiresAt: {
+        type: Date,
+        default: function () {
+            return (Date.now() + (10 * 60 * 1000))
+        }
     }
 }), 'UrlManager');
 

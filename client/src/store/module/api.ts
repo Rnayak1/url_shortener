@@ -11,10 +11,9 @@ Return Format of api endpoints
 
 */
 
-console.log(process.env.VUE_APP_ROOT_API)
 // api url 
 export const api = axios.create({
-  baseURL: process.env.production.VUE_APP_ROOT_API || 'http://localhost:5000/api'
+  baseURL: process.env.VUE_APP_ROOT_API || 'http://localhost:5000/api'
 });
 //Register User with Strict Type Match
 export async function RegisterUser(user: model.User) {
@@ -29,9 +28,9 @@ export async function LoginUser(user: model.Login) {
     user: user
   });
   if (response.data.status == "success") {
-    console.log(response);
+    //console.log(response);
     localStorage.setItem('t', response.data.message);
-    localStorage.setItem('u',response.data.username);
+    localStorage.setItem('u', response.data.username);
   }
   return response.data.status;
 }
@@ -45,24 +44,24 @@ export async function GenerateUrl(url: model.Generate) {
     delete api.defaults.headers['token'];
     return response.data;
   }
-  else{
+  else {
     const response = {
-      status : "error",
-      message : "Please Login to Use Your Account"
+      status: "error",
+      message: "Please Login to Use Your Account"
     }
     return response;
   }
 }
 //For Getting Orignal Url for given short url
-export async function GetUrl(url : string){
-  const response = await api.post("getlink",{
-    url : {hashLink : url}
+export async function GetUrl(url: string) {
+  const response = await api.post("getlink", {
+    url: { hashLink: url }
   })
   return response.data;
 }
 //For Fetching all links for logged in user
-export async function GetLinksForUser(){
-  console.log("api")
+export async function GetLinksForUser() {
+  //console.log("api")
   if (localStorage.t && localStorage.t != '') {
     api.defaults.headers['token'] = localStorage.getItem('t');
     const response = await api.post("getalllink");
@@ -70,10 +69,10 @@ export async function GetLinksForUser(){
     //console.log(response.data);
     return response.data;
   }
-  else{
+  else {
     const response = {
-      status : "error",
-      message : "Please Login to Use Your Account"
+      status: "error",
+      message: "Please Login to Use Your Account"
     }
     return response;
   }
