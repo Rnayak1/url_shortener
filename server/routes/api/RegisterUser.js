@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
 		data.email = user.email;
 		const token = jwt.sign(data, process.env.JWT, {
 			algorithm: 'HS256',
-			expiresIn: '1d'
+			expiresIn: '1h'
 		})
 		user.status = "inactive";
 		//console.log(user)
@@ -85,7 +85,7 @@ router.post('/register', async (req, res) => {
                     please click verify button to Verify your account 
                     <br>
                     <center>
-                        <a type="button" href="${process.env.MAILSENDER}/verify?token=${token}" style="border:1px solid grey; background:lightgreen; font-size:14px;justify-content:center"> Verify</a>
+                        <a type="button" href="${process.env.VERIFY}/verify?token=${token}" style="border:1px solid grey; background:lightgreen; font-size:14px;justify-content:center"> Verify</a>
                     </center>
                 </div>`
 		};
@@ -107,7 +107,8 @@ router.post('/register', async (req, res) => {
 
 // VerifyUser
 router.post('/verify', async (req, res) => {
-	const { token } = req.body.token;
+	//console.log(req.body)
+	const { token } = req.body;
 	if (token == undefined || token == {})
 		return res.json({
 			status: "error",

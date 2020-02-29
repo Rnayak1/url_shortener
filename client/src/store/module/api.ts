@@ -34,10 +34,18 @@ export async function LoginUser(user: model.Login) {
   }
   return response.data.status;
 }
+
+// For Verifying user
+export async function VerifyUser(token: string) {
+  const response = await api.post('verify', {
+    token: token
+  });
+  return response.data;
+}
+
 //For generating short url
 export async function GenerateUrl(url: model.Generate) {
   if (localStorage.t && localStorage.t != '') {
-    api.defaults.headers['token'] = localStorage.getItem('t');
     const response = await api.post("generate", {
       url: url
     });

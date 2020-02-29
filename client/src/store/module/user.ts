@@ -8,7 +8,7 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import * as model from "@/store/model";
-import { RegisterUser, LoginUser } from "./api";
+import { RegisterUser, LoginUser, VerifyUser } from "./api";
 
 @Module({
   namespaced: true,
@@ -46,7 +46,7 @@ class UserModule extends VuexModule {
     return (this.resp = resp);
   }
   /* 
-        return orignal url for provided shorturl
+        return registeration status
         {
             status : "error/success"
             message : "response return by server"
@@ -59,7 +59,7 @@ class UserModule extends VuexModule {
     return response;
   }
   /* 
-        return orignal url for provided shorturl
+        return user name and token sent by server for accessing protected routes
         {
             status : "error/success"
             message : "response return by server"
@@ -69,6 +69,12 @@ class UserModule extends VuexModule {
   async login(user: model.Login) {
     const response = await LoginUser(user);
     console.log(response);
+    return response;
+  }
+
+  @Action
+  async verifyUser(token: any) {
+    const response = await VerifyUser(token);
     return response;
   }
 }

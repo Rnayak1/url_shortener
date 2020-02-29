@@ -22,24 +22,29 @@ const routes = [
     component: () => import("@/views/Register.vue")
   },
   {
-    path : "/dashboard",
-    name : "DashBoard",
-    component : () => import("@/views/Dashboard.vue")
+    path: "/verify",
+    name: "Verify",
+    component: () => import("@/views/Verify.vue")
   },
   {
-    path : "/profile",
-    name : "Profile",
-    component : () => import('@/views/profile.vue')
+    path: "/dashboard",
+    name: "DashBoard",
+    component: () => import("@/views/Dashboard.vue")
   },
   {
-    path : "/logout",
-    name : "LogOut",
-    component : () => import('@/views/Logout.vue')
+    path: "/profile",
+    name: "Profile",
+    component: () => import('@/views/profile.vue')
   },
   {
-    path : "/:customUrl",
-    name : "CustomUrl",
-    component : () => import("@/views/Redirect.vue")
+    path: "/logout",
+    name: "LogOut",
+    component: () => import('@/views/Logout.vue')
+  },
+  {
+    path: "/:customUrl",
+    name: "CustomUrl",
+    component: () => import("@/views/Redirect.vue")
   }
 ];
 
