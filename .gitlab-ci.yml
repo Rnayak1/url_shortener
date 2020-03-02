@@ -1,12 +1,21 @@
 image : "node:10.16.0"
 
-pages :
-  cache : 
-    paths :
-      - node_modules/
-  scripts:
-    - npm install
-    - npm run serve
+stages :
+  - build
+  - serve
 
-  only :
-    - master
+cache : 
+  paths :
+    - node_modules/
+
+install_dependencies:
+      stage: build
+      script:
+        - npm install
+      artifacts:
+        paths:
+          - node_modules/
+
+serve_Project:
+  stage : serve
+  script : npm run serve
