@@ -6,7 +6,7 @@ pages :
       - node_modules/
   scripts:
     - npm install
-    - npm build
+    - npm run serve
 
   only :
-    - url
+    - master
