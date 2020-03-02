@@ -18,5 +18,7 @@ install_dependencies:
 
 build_Project:
   stage : build
-  script : npm run build --fix
+  script : 
+    - npm install
+    - npm run build --fix
 
