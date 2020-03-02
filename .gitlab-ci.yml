@@ -16,6 +16,7 @@ install_dependencies:
         paths:
           - node_modules/
 
-serve_Project:
-  stage : serve
-  script : npm run serve
+build_Project:
+  stage : build
+  script : npm run build --fix
+
