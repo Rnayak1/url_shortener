@@ -12,13 +12,20 @@ install_dependencies:
       stage: build
       script:
         - npm install
+        
       artifacts:
         paths:
           - node_modules/
+          - dist
 
 build_Project:
   stage : build
   script : 
     - npm install
     - npm run build --fix
+
+pages:
+  stage : deploy
+  script:
+
 
