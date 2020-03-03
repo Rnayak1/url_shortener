@@ -17,9 +17,6 @@ import UserLink from '@/components/UserLink.vue'
 export default class Profile extends Vue {
     get username(){
         return user.GetUsername;
-    }
-    created() {
-      console.log(this.username)  
     } 
 }
 </script>
