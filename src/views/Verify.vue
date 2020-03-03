@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.$route.query.token && this.$route.query.token != ''" id="verify">
+    <div v-if="this.$route.query.token && this.$route.query.token != '' && verify">
       <div class="message">
         <div class="spinner-border text-success" role="status" style="margin 5px"></div>
         <h4 style="margin : 5px 7px; color:cornsilk">Verifying User</h4>
@@ -35,13 +35,14 @@ import user from "@/store/module/user";
 @Component
 export default class Verify extends Vue {
   errorMessage = "";
+  verify = true;
   created() {
     //console.log(typeof this.$route.query.token);
     user.verifyUser(this.$route.query.token).then(response => {
       if (response.status == "success") {
         window.location.href = "/login";
       } else {
-        document.getElementById("verify").style.display = "none";
+        this.verify = false;
         return (this.errorMessage = response.message);
       }
     });
