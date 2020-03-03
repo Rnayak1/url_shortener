@@ -3,8 +3,7 @@ import {
   Module,
   getModule,
   Mutation,
-  Action,
-  MutationAction
+  Action
 } from "vuex-module-decorators";
 import store from "@/store";
 import * as model from "@/store/model";
@@ -55,7 +54,7 @@ class UserModule extends VuexModule {
   @Action
   async register(user: model.User) {
     const response = await RegisterUser(user);
-    console.log(response);
+    //console.log(response);
     return response;
   }
   /* 
@@ -68,7 +67,7 @@ class UserModule extends VuexModule {
   @Action({ commit: "Login" })
   async login(user: model.Login) {
     const response = await LoginUser(user);
-    console.log(response);
+    //console.log(response);
     return response;
   }
 

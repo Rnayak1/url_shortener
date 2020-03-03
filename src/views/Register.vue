@@ -94,15 +94,15 @@ export default class Register extends Vue {
     contact = ''
     message = ""
     register(){
-        console.log(this.firstName + this.email)
+        //console.log(this.firstName + this.email)
         user.register({
             username : this.firstName + this.lastName,
             email : this.email,
             password : this.password,
             contact : this.contact
-        }).then(response => { console.log(response.message);
+        }).then(response => { //console.log(response.message);
             return (this.message = response.message)})
-        .catch(err => console.log(err));     
+        .catch(err =>{ return err});     
     }
 }
 </script>

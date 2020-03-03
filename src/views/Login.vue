@@ -57,7 +57,7 @@ export default class Login extends Vue {
   password = "";
   loginError = "";
   async login() {
-    console.log(this.email + "  " + this.password);
+    //console.log(this.email + "  " + this.password);
     if (this.email == "" || this.password == "") {
       this.loginError = "Please fill this fields";
       return

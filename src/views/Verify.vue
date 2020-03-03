@@ -36,7 +36,7 @@ import user from "@/store/module/user";
 export default class Verify extends Vue {
   errorMessage = "";
   created() {
-    console.log(typeof this.$route.query.token);
+    //console.log(typeof this.$route.query.token);
     user.verifyUser(this.$route.query.token).then(response => {
       if (response.status == "success") {
         window.location.href = "/login";

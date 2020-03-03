@@ -92,7 +92,7 @@ export default class CreateClick extends Vue {
   // Function to verify only [A-Z a-z 1-9] are added in custom url
   clickCheck($event: string | null) {
     if ($event != null) {
-      console.log($event.charCodeAt(0));
+      //console.log($event.charCodeAt(0));
       if (
         (97 <= $event.charCodeAt(0) && $event.charCodeAt(0) <= 122) ||
         (65 <= $event.charCodeAt(0) && $event.charCodeAt(0) <= 90) ||
@@ -117,7 +117,7 @@ export default class CreateClick extends Vue {
       }
   */
   async generateUrl() {
-    console.log(this.orignalUrl, this.passedUrl);
+    //console.log(this.orignalUrl, this.passedUrl);
     const response = await link.generate({
       orignal: this.orignalUrl,
       passed: this.passedUrl

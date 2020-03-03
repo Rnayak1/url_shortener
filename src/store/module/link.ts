@@ -36,7 +36,7 @@ class LinkModule extends VuexModule {
     @Action
     async generate(Generate: model.Generate) {
         const response = await GenerateUrl(Generate)
-        console.log(response);
+        //console.log(response);
         return response;
     }
     /* 
@@ -49,7 +49,7 @@ class LinkModule extends VuexModule {
     @Action
     async getUrl(url:string){
         const response = await GetUrl(url);
-        console.log(response)
+        //console.log(response)
         return response;
     }
     /* 
